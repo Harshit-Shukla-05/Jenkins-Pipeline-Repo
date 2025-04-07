@@ -27,7 +27,7 @@ pipeline{
                 echo "Need to write this code"
             }
         }
-        stage("Create Container"){
+        stage("Deploy"){
             steps{
                 sh "docker compose up -d"
                 echo "--- Container Created and nginx website deployed ---"
