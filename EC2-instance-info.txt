@@ -1,0 +1,84 @@
+EC2 - MASTER
+
+> Name : Master-Jenkins
+> Image : Ubuntu
+> Security Group : port 8080, http, https, ssh
+> Storage : 12 GB
+> Click Create
+
+> After creating EC2 instance run:
+
+    sudo apt-get update
+    sudo apt install openjdk-21-jdk -y
+
+    sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+    https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+
+    echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+    https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+    /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+    sudo apt-get update
+    sudo apt-get install jenkins -y
+
+=========================================================================================
+EC2 - Agent
+
+> Name : Agent-Jenkins
+> Image : Ubuntu
+> SG : as above
+> Storage : 10 GB
+> Create
+
+> After creating EC2 instance run:
+    sudo apt update
+    sudo apt install fontconfig openjdk-17-jre
+    java -version
+
+=========================================================================================
+Next Steps :
+
+> Goto Master EC2 Console and copy its public ip and paste in browser with ":8080"  (NOTE: should be HTTP)
+> Goto Master EC2 ssh : cat /var/lib/jenkins/secrets/initialAdminPassword  (NOTE : to check admin initialAdminPassword)(NOTE: As root user)
+
+=========================================================================================
+Jenkins Connect Master with Agent:
+
+> GoTo Master EC2
+    >> goto folder (not root user) " cd ~/.ssh/ "
+    >> CMD : ssh-keygen  then press enter 3 times (dont put any value)
+    >> Now "id_ed25519" like this private and "id_ed25519.pub" like this public key is genrated
+    >> Now you need to copy public key to agent
+    >> Do CMD : cat id_ed25519.pub  then copy the key
+
+> Go to Agent EC2
+    >> cd ~./ssh  (user as ubuntu)
+    >> vim authorized_keys
+    >> copy public key in new line 
+
+> Go to Jenkins (Master)
+    >> goto Manage jenkins --> Nodes --> New node
+    >> Name and Type Permanent
+    >> Next
+    >> Description
+    >> Number of executors (max number of job that can run concurrently)  = 1
+    >> Remote root directory (home directory as of Agent EC2) = /home/ubuntu
+    >> Labels (it is very important bcz in front of agent field in pipeline we give this value only (agent <label>)) ="agentdon"
+    >> Usage (Default = empty ,means use as much as you want)
+    >> Launch method : Launch via SSH
+        >>> Host : IP of Agent EC2 Public
+        >>> Credentials : Click Add
+                >>>> Domain - Global Credentials
+                >>>> Kind - SSH usernam with private key
+                >>>> Scopt - Global
+                >>>> ID - name of key (anything you can write)
+                >>>> Description - any description
+                >>>> Username - ubuntu (agent EC2)
+                >>>> Click Private key :
+                >>>> Enter directly-Key : Do cat id_ed25519  ,copy the private key and paste
+                >>>> Add 
+        >>> Credentials : select the crdential created now
+        >>> Host Key Verification Strategy : Non verifying verifcation strategy
+        >>> Availability : Keep the agent as online as possible
+        >>> Save
+
