@@ -1,0 +1,43 @@
+pipeline{
+    agent {label "AGNode"}
+    environment {
+        GIT_REPO = 'https://github.com/Harshit-Shukla-05/Jenkins-Pipeline-Repo.git'
+        GIT_BRANCH = 'simple_pipeline'
+    }
+    stages{
+        stage("Greetings"){
+            steps{
+                echo "Welcome to Jenkins Project"
+            }
+        }
+        stage("Clone Github Code"){
+            steps{
+                git url: "${GIT_REPO}", branch: "${GIT_BRANCH}" 
+                echo "--- Cloning complete ---"
+            }
+        }
+        stage("Build - docker image"){
+            steps{
+                sh "docker build -t hello-world-image:latest ."
+                echo "--- Docker Image Created ---"
+            }
+        }
+        stage("Push Img to dockerhub"){
+            steps{
+                echo "Need to write this code"
+            }
+        }
+        stage("Create Container"){
+            steps{
+                sh "docker compose up -d"
+                echo "--- Container Created and nginx website deployed ---"
+            }
+        }
+        stage("Clean Up"){
+            steps{
+                sh "docker image prune -f"
+                echo "--- Dangling Images Removed ---"
+            }
+        }
+    }
+}
