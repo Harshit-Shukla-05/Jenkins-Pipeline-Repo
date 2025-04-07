@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   web:
-    build:
-      context: .
+    image: hello-world-image:latest
+    container_name: hw-cont1
     ports:
       - "80:80"
