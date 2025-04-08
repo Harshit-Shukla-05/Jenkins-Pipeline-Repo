@@ -30,9 +30,7 @@ To enable Jenkins to use shared libraries, follow the instructions in the `Add-S
 
 3. **Save the Job** and trigger a build.
 
-
-==============================================================================================
-## Step - 4 (optional) to setup webhook from git
+## Step - 4 : to setup webhook from git
 1. Go to Git Repo 
   - Go to Settings
   - left side select webhook
