@@ -6,6 +6,7 @@ This repository demonstrates how to set up a CI/CD pipeline in Jenkins to deploy
 
 ### Step 1: Set up the EC2 Instance
 Follow the instructions in the `EC2-instance-info.txt` file to provision and configure an EC2 instance. This instance will host Jenkins and run the pipeline.
+
 Note : use name "AGNode" as label in Jenkins while steuping node
 
 ### Step 2: Add Shared Library to Jenkins
