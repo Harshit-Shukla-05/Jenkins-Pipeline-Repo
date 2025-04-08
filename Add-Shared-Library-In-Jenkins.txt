@@ -1,0 +1,84 @@
+How to create shared library :
+
+> In Github
+    >> Create a repo
+    >> create folder with name "vars"
+    >> Inside folder "vars" create file with name "<file_name>.groovy" 
+    >> create called "call"
+    >> Demo :
+        Repo/vars/hello.groovy
+
+        def call(){
+            //whatever you are writing in steps write here directly
+            echo "hello world"
+        }
+
+    >> save
+
+    NOTE : "vars",".groovy" and "call" ,names are case-sensitive and should be taken care
+
+
+> In Jenkins
+    >> Goto Manage Jenkins --> system --> Global Trusted pipeline libraries
+    >> Click Add
+    >> Name (anything like shared)
+    >> Default Version : (name of Github branch directly)
+    >> Retrival method : (select "Modern SCM")
+        >>> Source code management (select "Git")
+            >>>> Project Repository (Ex-  https://<repo_name>)
+            >>>> Credentials (For Public not req, for private add github id pswd)
+    >> save
+
+> In Jenkins
+    >> Go to pipeline --> pipeline scripts
+    >> In first line (before "pipeline" keyword)  write CMD : @Library("<library_name_like_shared") _
+
+       NOTE : there is a space and "_" at last ,like " _"
+    
+    >> write as below to use
+
+        stage("hello_stage"){
+            steps{
+                script{
+                    <groovy_file_name_only>()      // Ex-  hello()  because file name is "hello.groovy" in git
+                }
+            }
+        }
+
+===========================================================================================================
+Ways to wirte groovy file :
+
+> Normal
+def call(){
+    //whatever you are writing in steps write here directly
+    echo "hello world"
+}
+
+stage("hello_stage"){
+    steps{
+        script{
+            <groovy_file_name_only>()      // Ex-  hello()  because file name is "hello.groovy" in git
+        }
+    }
+}
+
+
+
+> Passing argument from Jenkins
+
+def call(String git_url, String branch) {
+
+    echo "This is cloning the code"
+
+    git url: "${git_url}", branch: "${branch}"
+
+    echo "code is clonned"
+}
+
+stage("Clone_the_code"){
+    steps{
+        script{
+            clone("https://<repo_url>","branch_name")     // in double quotes only branch and repo name
+        }
+    }
+}

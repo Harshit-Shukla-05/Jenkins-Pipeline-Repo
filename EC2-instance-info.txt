@@ -60,7 +60,7 @@ Jenkins Connect Master with Agent:
     >> vim authorized_keys
     >> copy public key in new line 
 
-> Go to Jenkins (Master)
+> Go to Jenkins (Master)  (NOTE: Label should be "AGNode")
     >> goto Manage jenkins --> Nodes --> New node
     >> Name and Type Permanent
     >> Next
@@ -86,3 +86,17 @@ Jenkins Connect Master with Agent:
         >>> Availability : Keep the agent as online as possible
         >>> Save
 
+
+//##############################################################################################333
+
+NOTE : If you get below mentioned issue while creating build then do 
+                     > "sudo reboot" on agent EC2 (if still issue is there try below)
+                     >  do "sudo systemctl restart jenkins" in Master EC2 
+ISSUE :                  
+"docker build -t hello-world-image:latest .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post "http://%2Fvar%2Frun%2Fdocker.sock/v1.45/build?buildargs=%7B%7D&cachefrom=%5B%5D&cgroupparent=&cpuperiod=0&cpuquota=0&cpusetcpus=&cpusetmems=&cpushares=0&dockerfile=Dockerfile&labels=%7B%7D&memory=0&memswap=0&networkmode=default&rm=1&shmsize=0&t=hello-world-image%3Alatest&target=&ulimits=%5B%5D&version=1": dial unix /var/run/docker.sock: connect: permission denied
+"

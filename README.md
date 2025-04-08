@@ -7,4 +7,6 @@ Step-2 : Go to jenkins --> New Item --> Pipeline
     > Enable - GitHub project (paste link - https://github.com/Harshit-Shukla-05/Jenkins-Pipeline-Repo.git)
     > Enable - GitHub hook trigger for GITScm polling
     > Pipeline - Script
-    
+
+Step-3 : Add Shared libraray info to jenkins
+    > follow file "Add-Shared-Library-In-Jenkins.txt"
