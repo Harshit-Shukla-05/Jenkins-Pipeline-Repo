@@ -18,7 +18,7 @@ To enable Jenkins to use shared libraries, follow the instructions in the `Add-S
    - Name the job, and select **Pipeline**.
    - Enable **GitHub project** and paste the following link:  
      `https://github.com/Harshit-Shukla-05/Jenkins-Pipeline-Repo.git`
-   - Enable **GitHub hook trigger for GITScm polling** to trigger builds on every push to the GitHub repository.
+   - Enable **GitHub hook trigger for GITScm polling** to trigger builds on every push to the GitHub repository. (work only with github web-hook)
 
 2. **Pipeline Script Configuration:**
    - Choose **Pipeline script from SCM**.
@@ -29,3 +29,24 @@ To enable Jenkins to use shared libraries, follow the instructions in the `Add-S
      - **Script Path**: Set to `Jenkinsfile`
 
 3. **Save the Job** and trigger a build.
+
+
+==============================================================================================
+## Step - 4 (optional) to setup webhook from git
+1. Go to Git Repo 
+  - Go to Settings
+  - left side select webhook
+  - Add Webhook
+    - Payload URL : http://<public_ip_of_master_EC2>:<jenkins_port>/github-webhook/     (Dont forget the "/" in the end)
+    - Content type * : application/x-www-form-urlencoded
+    - SSL Verification : Disable
+    - Which events would you like to trigger this webhook? : Send me everything
+    - Active : Tick
+    - Click save
+
+    NOTE : refresh and wait till the green tick comes in front of webhook , if failed try below method
+        - refresh sometimes
+        - goto recent deliver(appear when you open webhook) and redeliver
+        - chage "Content type *" to application/json and save try , if not try once step 2
+      
+    NOTE : From jenkins side **GitHub hook trigger for GITScm polling**  already enabled, so it will automatically read.
